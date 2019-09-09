@@ -5,12 +5,12 @@ const routes = [
   {
     path:'/',
     exact:true,
-    component:{Home}
+    component:Home
   },
   {
     path:'/login',
     exact:true,
-    component:{Login}
+    component:Login
   },
 ];
 export default routes
