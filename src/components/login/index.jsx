@@ -1,15 +1,15 @@
 import React, {Component} from 'react'
 import logo from './logo.png'
 import {Form, Icon, Input, Button, Checkbox, message} from 'antd';
-import axios from 'axios'
+import {reqLogin} from '../../api'
 import './index.less'
 import {connect} from 'react-redux'
 import {saveUser} from '../../redux/action-creators'
 
 //使用connect来保存数据,传入两个参数
 @connect(
-    null,
-    {saveUser}
+  null,
+  {saveUser}
 )
 @Form.create()
 class Login extends Component {
@@ -46,21 +46,24 @@ class Login extends Component {
       //   console.log(value)
       if (!error) {
         const {username, password} = value;
-        //  使用axios发送请求
-        axios.post('http://localhost:3000/api/login', {username, password})
-            .then((response) => {
-              console.log(response);
-              if (response.data.status === 0) {
-                message.success('登陆成功');
-                /*保存用户数据*/
-                this.props.saveUser(response.data.data)
-                /*跳转到主页面*/
-                this.props.history.replace('/')
-              }
-            })
-            .catch((err) => {
-              message.error('网络错误，登录失败~~')
-            })
+        /*使用axios发送请求
+        * 使用封装好的axios发送请求时，请求地址只写后面就可以*/
+        reqLogin(username, password)
+          .then((result) => {
+            console.log(result);
+            message.success('登陆成功');
+            /*保存用户数据*/
+            this.props.saveUser(result)
+            /*跳转到主页面*/
+            this.props.history.replace('/')
+          })
+          .catch(() => {
+            /*登录失败后清除密码,
+            * resetFields--该方法来自from上面
+            * 不能写在异步代码外面，最后才执行
+            * 不管成功还是失败，都会触发finally*/
+            this.props.form.resetFields(['password'])
+          })
       }
     })
   };
@@ -68,51 +71,50 @@ class Login extends Component {
   render() {
     const {getFieldDecorator} = this.props.form;
     return (
-        <div className="login">
-          <header className="login-header">
-            <img src={logo} alt="logo"/>
-            <h1>React后台管理系统</h1>
-          </header>
-          <section className="login-section">
-            <h2>用户登录</h2>
-            <Form onSubmit={this.login}>
-              <Form.Item>
-                {getFieldDecorator(
-                    'username',
-                    {
-                      rules: [
-                        /*{required: true, message: '请输入用户名'},
-                        {min: 3, message: '最小长度是3位'},
-                        {max: 16, message: '最大长度16位'},
-                        {pattern: /^[a-zA-Z0-9],{3,13}$/, message: '用户名必须是数字、字母、下划线，存在非法字符'}*/
-                        {validator: this.validator}
-                      ]
-                    }
-                )
-                (
-                    <Input type="text" prefix={<Icon type="user"/>} placeholder="请输入用户名"/>
-                )}
-
-              </Form.Item>
-              <Form.Item>
-                {getFieldDecorator(
-                    'password',
-                    {
-                      rules: [
-                        {validator: this.validator}
-                      ]
-                    }
-                )
-                (
-                    <Input type="password" prefix={<Icon type="lock"/>} placeholder="请输入密码"/>
-                )}
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" htmlType="submit" className="formBtn">登录</Button>
-              </Form.Item>
-            </Form>
-          </section>
-        </div>
+      <div className="login">
+        <header className="login-header">
+          <img src={logo} alt="logo"/>
+          <h1>React后台管理系统</h1>
+        </header>
+        <section className="login-section">
+          <h2>用户登录</h2>
+          <Form onSubmit={this.login}>
+            <Form.Item>
+              {getFieldDecorator(
+                'username',
+                {
+                  rules: [
+                    /*{required: true, message: '请输入用户名'},
+                    {min: 3, message: '最小长度是3位'},
+                    {max: 16, message: '最大长度16位'},
+                    {pattern: /^[a-zA-Z0-9],{3,13}$/, message: '用户名必须是数字、字母、下划线，存在非法字符'}*/
+                    {validator: this.validator}
+                  ]
+                }
+              )
+              (
+                <Input type="text" prefix={<Icon type="user"/>} placeholder="请输入用户名"/>
+              )}
+            </Form.Item>
+            <Form.Item>
+              {getFieldDecorator(
+                'password',
+                {
+                  rules: [
+                    {validator: this.validator}
+                  ]
+                }
+              )
+              (
+                <Input type="password" prefix={<Icon type="lock"/>} placeholder="请输入密码"/>
+              )}
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit" className="formBtn">登录</Button>
+            </Form.Item>
+          </Form>
+        </section>
+      </div>
     )
   }
 }
