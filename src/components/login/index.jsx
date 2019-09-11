@@ -1,8 +1,16 @@
 import React, {Component} from 'react'
 import logo from './logo.png'
-import {Form, Icon, Input, Button, Checkbox} from 'antd';
+import {Form, Icon, Input, Button, Checkbox, message} from 'antd';
+import axios from 'axios'
 import './index.less'
+import {connect} from 'react-redux'
+import {saveUser} from '../../redux/action-creators'
 
+//使用connect来保存数据,传入两个参数
+@connect(
+    null,
+    {saveUser}
+)
 @Form.create()
 class Login extends Component {
   constructor(props) {
@@ -12,7 +20,7 @@ class Login extends Component {
   validator = (rule, value, callback) => {
     const name = rule.field === 'username' ? '用户名' : '密码';
     console.log(rule);
-    const reg = /^[a-zA-Z0-9],{4,16}$/;
+    const reg = /^[a-zA-Z0-9]{3,16}$/;
     if (!value) {
       return callback(`请输入${name}`)
     }
@@ -29,6 +37,34 @@ class Login extends Component {
     callback()
   };
 
+  login = (e) => {
+    //  禁止默认行为
+    e.preventDefault();
+    //  通过表单from属性中的 validateFields 方法来校验表单
+    this.props.form.validateFields((error, value) => {
+      //  value 所有表单的值
+      //   console.log(value)
+      if (!error) {
+        const {username, password} = value;
+        //  使用axios发送请求
+        axios.post('http://localhost:3000/api/login', {username, password})
+            .then((response) => {
+              console.log(response);
+              if (response.data.status === 0) {
+                message.success('登陆成功');
+                /*保存用户数据*/
+                this.props.saveUser(response.data.data)
+                /*跳转到主页面*/
+                this.props.history.replace('/')
+              }
+            })
+            .catch((err) => {
+              message.error('网络错误，登录失败~~')
+            })
+      }
+    })
+  };
+
   render() {
     const {getFieldDecorator} = this.props.form;
     return (
@@ -39,7 +75,7 @@ class Login extends Component {
           </header>
           <section className="login-section">
             <h2>用户登录</h2>
-            <Form>
+            <Form onSubmit={this.login}>
               <Form.Item>
                 {getFieldDecorator(
                     'username',
@@ -54,7 +90,7 @@ class Login extends Component {
                     }
                 )
                 (
-                    <Input type="text" prefix={<Icon type="user"/> } placeholder="请输入用户名"/>
+                    <Input type="text" prefix={<Icon type="user"/>} placeholder="请输入用户名"/>
                 )}
 
               </Form.Item>
@@ -72,7 +108,7 @@ class Login extends Component {
                 )}
               </Form.Item>
               <Form.Item>
-                <Button type="submit" className="formBtn">登录</Button>
+                <Button type="primary" htmlType="submit" className="formBtn">登录</Button>
               </Form.Item>
             </Form>
           </section>
