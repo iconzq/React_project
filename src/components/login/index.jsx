@@ -10,8 +10,9 @@ class Login extends Component {
   }
 
   validator = (rule, value, callback) => {
-    const name = rule.file === 'username' ? '用户名' : '密码'
-    const reg = /^[a-zA-Z0-9],{4,16}$/
+    const name = rule.field === 'username' ? '用户名' : '密码';
+    console.log(rule);
+    const reg = /^[a-zA-Z0-9],{4,16}$/;
     if (!value) {
       return callback(`请输入${name}`)
     }
@@ -26,10 +27,10 @@ class Login extends Component {
       return callback(`${name}必须是数字、字母、下划线，不能存在非法字符`)
     }
     callback()
-  }
+  };
 
   render() {
-    const {getFieldDecorator} = this.props.form
+    const {getFieldDecorator} = this.props.form;
     return (
         <div className="login">
           <header className="login-header">
@@ -53,7 +54,7 @@ class Login extends Component {
                     }
                 )
                 (
-                    <Input type="text" prefix={<Icon type="user"/>}/>
+                    <Input type="text" prefix={<Icon type="user"/> } placeholder="请输入用户名"/>
                 )}
 
               </Form.Item>
@@ -67,7 +68,7 @@ class Login extends Component {
                     }
                 )
                 (
-                    <Input type="password" prefix={<Icon type="lock"/>}/>
+                    <Input type="password" prefix={<Icon type="lock"/>} placeholder="请输入密码"/>
                 )}
               </Form.Item>
               <Form.Item>
