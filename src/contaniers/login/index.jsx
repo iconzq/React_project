@@ -5,7 +5,9 @@ import {reqLogin} from '../../api'
 import './index.less'
 import {connect} from 'react-redux'
 import {saveUser} from '../../redux/action-creators'
+import withCheckLogin from '../withCheckLogin/withCheckLogin'
 
+@withCheckLogin
 //使用connect来保存数据,传入两个参数
 @connect(
   null,
