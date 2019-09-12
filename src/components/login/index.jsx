@@ -13,9 +13,6 @@ import {saveUser} from '../../redux/action-creators'
 )
 @Form.create()
 class Login extends Component {
-  constructor(props) {
-    super(props)
-  }
 
   validator = (rule, value, callback) => {
     const name = rule.field === 'username' ? '用户名' : '密码';
