@@ -3,6 +3,7 @@ import {BrowserRouter as Router, Route,} from 'react-router-dom'
 import routes from './config/routes'
 
 export default class App extends Component {
+  // eslint-disable-next-line no-useless-constructor
   constructor(props) {
     super(props)
   }
