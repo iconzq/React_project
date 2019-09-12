@@ -34,7 +34,7 @@ class Login extends Component {
     callback()
   };
 
-  login = (e) => {
+  onSubmit = (e) => {
     //  禁止默认行为
     e.preventDefault();
     //  通过表单from属性中的 validateFields 方法来校验表单
@@ -75,7 +75,7 @@ class Login extends Component {
         </header>
         <section className="login-section">
           <h2>用户登录</h2>
-          <Form onSubmit={this.login}>
+          <Form onSubmit={this.onSubmit}>
             <Form.Item>
               {getFieldDecorator(
                 'username',
