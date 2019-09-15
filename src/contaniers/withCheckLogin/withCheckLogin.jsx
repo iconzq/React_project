@@ -8,14 +8,14 @@ function withCheckLogin(WrappedComponent) {
     return {token: state.user.token}
   }, null)(
     class extends Component {
-      static displayName = `CheckLogin(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`
+      static displayName = `CheckLogin(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
       render() {
-        const {token, location, history, match} = this.props
-        const {pathname} = location
-        if (pathname === '/login' && token) return <Redirect to="/"/>
-        if (pathname !== '/login' && !token) return <Redirect to="/login"/>
-        return <WrappedComponent location={location} history={history} match={match}/>
+        const {token, ...rest} = this.props;
+        const {location:{pathname}} = rest;
+        if (pathname === '/login' && token) return <Redirect to="/"/>;
+        if (pathname !== '/login' && !token) return <Redirect to="/login"/>;
+        return <WrappedComponent {...rest}/>
       }
     }
   )
