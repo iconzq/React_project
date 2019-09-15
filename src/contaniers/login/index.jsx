@@ -103,8 +103,7 @@ class Login extends Component {
                     {validator: this.validator}
                   ]
                 }
-              )
-              (
+              )(
                 <Input type="password" prefix={<Icon type="lock"/>} placeholder="请输入密码"/>
               )}
             </Form.Item>

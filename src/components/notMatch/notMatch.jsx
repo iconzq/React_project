@@ -1,5 +1,10 @@
 import React,{Component} from 'react'
-export default class NotMatch extends Component{
+import withCheckLogin from '../../contaniers/withCheckLogin/withCheckLogin'
+
+/* 加入登录判断，如果登陆了就直接进入主页面，没有就返回登录页面重新登陆 */
+@withCheckLogin
+
+ class NotMatch extends Component{
     constructor(props){
         super(props)
     }
@@ -11,3 +16,5 @@ export default class NotMatch extends Component{
         )
     }
 }
+
+export default NotMatch

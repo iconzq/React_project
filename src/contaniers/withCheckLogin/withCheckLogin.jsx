@@ -11,6 +11,7 @@ function withCheckLogin(WrappedComponent) {
       static displayName = `CheckLogin(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
       render() {
+        /* ...rest 剩余所有的属性的对象，单独写属性漏掉了 children 属性， home组件显示不出来 */
         const {token, ...rest} = this.props;
         const {location:{pathname}} = rest;
         if (pathname === '/login' && token) return <Redirect to="/"/>;

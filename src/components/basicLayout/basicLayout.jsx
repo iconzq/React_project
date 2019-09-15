@@ -3,6 +3,7 @@ import {Layout, Breadcrumb} from 'antd';
 import logo from '../../assets/img/logo.png'
 import LeftNav from './left-nav/leftNav'
 import './index.less'
+import HeaderMain from './headerMain'
 import withCheckLogin from '../../contaniers/withCheckLogin/withCheckLogin'
 
 const {Header, Content, Footer, Sider} = Layout;
@@ -39,7 +40,9 @@ class BasicLayout extends Component {
           <LeftNav/>
         </Sider>
         <Layout>
-          <Header style={{background: '#fff', padding: 0}}/>
+          <Header style={{background: '#fff', padding: 0,height:80}}>
+            <HeaderMain/>
+          </Header>
           <Content style={{margin: '0 16px'}}>
             <Breadcrumb style={{margin: '16px 0'}}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
