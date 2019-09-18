@@ -1,52 +1,59 @@
-// 为了让路径和 key 对应起来，将 key 设置为路径
+
 const menu = [
   {
     icon: 'home',
-    title: '首页',
+    title: 'menu.home',
     key: '/'
-  }, {
+  },
+  {
     icon: 'appstore',
-    title: '商品管理',
+    title: 'menu.products',
     key: '/products',
     children: [
       {
         icon: 'bars',
-        title: '首页',
-        key: '/category',
-      }, {
-        icon: 'home',
-        title: '首页',
+        title: 'menu.category',
+        key: '/category'
+      },
+      {
+        icon: 'tool',
+        title: 'menu.product',
         key: '/product'
       }
     ]
-  }, {
+  },
+  {
     icon: 'user',
-    title: '用户管理',
+    title: 'menu.user',
     key: '/user'
-  }, {
-    icon: 'lock',
-    title: '权限管理',
+  },
+  {
+    icon: 'safety',
+    title: 'menu.role',
     key: '/role'
-  }, {
-    icon: 'appstore',
-    title: '商品管理',
+  },
+  {
+    icon: 'area-chart',
+    title: 'menu.charts',
     key: '/charts',
     children: [
       {
-        icon: 'home',
-        title: '首页',
-        key: '/charts/bar',
-      }, {
-        icon: 'home',
-        title: '首页',
+        icon: 'bar-chart',
+        title: 'menu.bar',
+        key: '/charts/bar'
+      },
+      {
+        icon: 'line-chart',
+        title: 'menu.line',
         key: '/charts/line'
-      }, {
+      },
+      {
         icon: 'pie-chart',
-        title: 'menus.pie',
+        title: 'menu.pie',
         key: '/charts/pie'
       }
     ]
-  }
-]
+  },
+];
 
-export default menu
+export default menu;

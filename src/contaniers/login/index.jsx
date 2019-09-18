@@ -52,7 +52,7 @@ class Login extends Component {
             console.log(result);
             message.success('登陆成功');
             /*保存用户数据*/
-            this.props.saveUser(result)
+            this.props.saveUser(result);
             /*跳转到主页面*/
             this.props.history.replace('/')
           })
@@ -90,8 +90,7 @@ class Login extends Component {
                     {validator: this.validator}
                   ]
                 }
-              )
-              (
+              )(
                 <Input type="text" prefix={<Icon type="user"/>} placeholder="请输入用户名"/>
               )}
             </Form.Item>

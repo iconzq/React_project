@@ -1,11 +1,13 @@
 import React,{Component} from 'react'
 import {withRouter,Link} from 'react-router-dom'
+import { useTranslation, withTranslation, Trans } from 'react-i18next';
 
 import {Icon, Layout, Menu} from "antd";
 import menu from '../../../config/menu'
 
 const {SubMenu} = Menu;
 
+@withTranslation()
 @withRouter
 
  class LeftNav extends Component{
@@ -24,7 +26,7 @@ const {SubMenu} = Menu;
             title={
               <span>
                   <Icon type={menu.icon}/>
-                  <span>{menu.title}</span>
+                  <span>{this.props.t(menu.title)}</span>
                 </span>
             }
           >
@@ -34,7 +36,7 @@ const {SubMenu} = Menu;
                   <Menu.Item key={cMenu.key}>
                     <Link to={cMenu.key}>
                       <Icon type={cMenu.icon}/>
-                      <span>{cMenu.title}</span>
+                      <span>{this.props.t(cMenu.title)}</span>
                     </Link>
                   </Menu.Item>
                 )
@@ -47,7 +49,7 @@ const {SubMenu} = Menu;
           <Menu.Item key={menu.key}>
             <Link to={menu.key}>
               <Icon type={menu.icon}/>
-              <span>{menu.title}</span>
+              <span>{this.props.t(menu.title)}</span>
             </Link>
           </Menu.Item>
         )

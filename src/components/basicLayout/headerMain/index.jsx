@@ -1,16 +1,20 @@
 import React,{Component} from 'react'
-import ReactDOM from 'react-dom';
 import { Button,Icon } from 'antd'
 import screenfull from 'screenfull'
+import {  withTranslation, getI18n } from 'react-i18next';
 import './index.less'
-export default class Index extends Component{
+
+/* 该高阶组件传入两个属性  t  i18n */
+@withTranslation()
+class Index extends Component{
     constructor(props){
         super(props)
     }
 
     state = {
-      isScreenFull:false
-    }
+      isScreenFull:false,
+      isEnglish:getI18n().language === 'en'
+    };
   fullScreen = () => {
     if (screenfull.isEnabled){
       screenfull.toggle();
@@ -19,7 +23,7 @@ export default class Index extends Component{
         isScreenFull:!this.state.isScreenFull
       })*/
     }
-  }
+  };
 
   /* 事件只会触发一次 元素即将挂载的时候绑定事件 */
   componentDidMount() {
@@ -39,13 +43,20 @@ export default class Index extends Component{
     });
   }
 
+  changeLanguage = () => {
+    this.props.i18n.changeLanguage(this.state.isEnglish ? 'zh-CN' : 'en')
+    this.setState({
+      isEnglish:!this.state.isEnglish
+    })
+  };
+
   render(){
-      const {isScreenFull} = this.state
+      const {isScreenFull,isEnglish} = this.state;
         return(
             <div className="header_main">
                 <div className="header_main_top">
                   <Button size="small" onClick={this.fullScreen}><Icon type={isScreenFull ? 'fullscreen-exit':'fullscreen'}/></Button>
-                  <Button size="small" className="header_main_btn">English</Button>
+                  <Button size="small" className="header_main_btn" onClick={this.changeLanguage}>{isEnglish ? 'English' : '中文'}</Button>
                   <span>欢迎，xxx</span>
                   <Button type="link">退出</Button>
                 </div>
@@ -57,3 +68,5 @@ export default class Index extends Component{
         )
     }
 }
+
+export default Index
